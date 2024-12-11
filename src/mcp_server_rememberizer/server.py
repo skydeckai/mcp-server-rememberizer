@@ -28,7 +28,7 @@ REMEMBERIZER_BASE_URL = "https://api.rememberizer.ai/api/v1/"
 REMEMBERIZER_API_TOKEN = os.getenv("REMEMBERIZER_API_TOKEN")
 
 if not REMEMBERIZER_API_TOKEN:
-    raise ValueError("REMEMBERIZER_API_BASE environment variable required")
+    raise ValueError("REMEMBERIZER_API_TOKEN environment variable required")
 client = APIClient(base_url=REMEMBERIZER_BASE_URL, api_key=REMEMBERIZER_API_TOKEN)
 
 

@@ -76,17 +76,12 @@ Add this to your `claude_desktop_config.json`:
 ```json
 "mcpServers": {
   "rememberizer": {
-    "command": "uv",
-    "args": [
-      "--directory",
-      "/path/to/directory/mcp-servers-rememberizer/src/mcp_server_rememberizer",
-      "run",
-      "mcp-server-rememberizer"
-    ],
-    "env": {
-      "REMEMBERIZER_API_TOKEN": "your-rememberizer-api-token",
-    }
-  }
+      "command": "uvx",
+      "args": ["mcp-server-rememberizer"],
+      "env": {
+        "REMEMBERIZER_API_TOKEN": "your_rememberizer_api_token"
+      }
+    },
 }
 ```
 
