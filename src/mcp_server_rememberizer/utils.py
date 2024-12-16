@@ -19,6 +19,7 @@ RETRIEVE_SLACK_PATH = "discussions/{id}/contents/?integration_type=slack"
 SEARCH_PATH = "documents/search/"
 AGENTIC_SEARCH_PATH = "documents/agentic_search/"
 LIST_INTEGRATIONS_PATH = "integrations/"
+MEMORIZE_PATH = "documents/memorize/"
 
 
 class RememberizerTools(Enum):
@@ -27,6 +28,7 @@ class RememberizerTools(Enum):
     LIST_INTEGRATIONS = "rememberizer_list_integrations"
     ACCOUNT_INFORMATION = "rememberizer_account_information"
     LIST_DOCUMENTS = "rememberizer_list_documents"
+    MEMORIZE = "rememberizer_memorize"
 
 
 class APIClient:
