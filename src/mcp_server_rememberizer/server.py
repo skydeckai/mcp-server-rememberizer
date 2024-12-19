@@ -13,6 +13,7 @@ from mcp_server_rememberizer.utils import (
     APP_NAME,
     LIST_DOCUMENTS_PATH,
     LIST_INTEGRATIONS_PATH,
+    MEMORIZE_PATH,
     RETRIEVE_DOCUMENT_PATH,
     RETRIEVE_SLACK_PATH,
     SEARCH_PATH,
@@ -192,6 +193,29 @@ Examples:
                     },
                 },
             ),
+            types.Tool(
+                name=RememberizerTools.MEMORIZE.value,
+                description=(
+                    "Save a piece of text information in your Rememberizer account "
+                    "to help you discover semantically similar knowledge in the future."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": (
+                                "Name of the information. "
+                                "This is used to identify the information in the future."
+                            ),
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": "The information you wish to memorize.",
+                        },
+                    },
+                },
+            ),
         ]
 
     @server.call_tool()
@@ -230,6 +254,13 @@ Examples:
                 page_size = arguments.get("page_size", 100)
                 params = {"page": page, "page_size": page_size}
                 data = await client.get(LIST_DOCUMENTS_PATH, params=params)
+                return [types.TextContent(type="text", text=str(data))]
+            case RememberizerTools.MEMORIZE.value:
+                params = {
+                    "name": arguments["name"],
+                    "content": arguments["content"],
+                }
+                data = await client.post(MEMORIZE_PATH, data=params)
                 return [types.TextContent(type="text", text=str(data))]
             case _:
                 raise ValueError(f"Unknown tool: {name}")
