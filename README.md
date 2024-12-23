@@ -1,5 +1,7 @@
 # MCP Get Community Servers
 
+[![smithery badge](https://smithery.ai/badge/mcp-server-rememberizer)](https://smithery.ai/server/mcp-server-rememberizer)
+
 A [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) server for interacting with Rememberizer's document and knowledge management API. This server enables Large Language Models to search, retrieve, and manage documents and integrations through Rememberizer.
 
 Please note that `mcp-server-rememberizer` is currently in development and the functionality may be subject to change.
@@ -54,6 +56,14 @@ The server provides access to two types of resources: Documents or Slack discuss
    - Returns: List of documents
 
 ## Installation
+
+### Installing via Smithery
+
+To install Rememberizer Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/mcp-server-rememberizer):
+
+```bash
+npx -y @smithery/cli install mcp-server-rememberizer --client claude
+```
 
 ### Using uv (recommended)
 
