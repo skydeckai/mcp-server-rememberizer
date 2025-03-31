@@ -1,5 +1,7 @@
 # MCP Server Rememberizer
 
+[![smithery badge](https://smithery.ai/badge/mcp-server-rememberizer)](https://smithery.ai/server/mcp-server-rememberizer)
+
 A [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) server for interacting with Rememberizer's document and knowledge management API. This server enables Large Language Models to search, retrieve, and manage documents and integrations through Rememberizer.
 
 Please note that `mcp-server-rememberizer` is currently in development and the functionality may be subject to change.
@@ -55,21 +57,23 @@ The server provides access to two types of resources: Documents or Slack discuss
 
 ## Installation
 
-### Installing via mcp-get.com
+### Via mcp-get.com
 
 ```bash
 npx @michaellatman/mcp-get@latest install mcp-server-rememberizer
 ```
 
-### Installing via Smithery
+### Via Smithery
 
 ```bash
 npx -y @smithery/cli install mcp-server-rememberizer --client claude
 ```
 
-### Using uv (recommended)
+### Via SkyDeck AI Helper App
 
-When using [`uv`](https://docs.astral.sh/uv/), no specific installation is needed. Use [`uvx`](https://docs.astral.sh/uv/guides/tools/) to directly run _mcp-server-rememberizer_.
+If you have SkyDeck AI Helper app installed, you can search for "Rememberizer" and install the mcp-server-rememberizer.
+
+![SkyDeck AI Helper](https://docs.rememberizer.ai/~gitbook/image?url=https%3A%2F%2F2952947711-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FyNqpTh7Mh66N0RnO0k24%252Fuploads%252FYyy7b70uYnO8Gm5V7spp%252Fimage.png%3Falt%3Dmedia%26token%3D008d56ea-44f8-482a-a889-f7d933f1d734&width=768&dpr=2&quality=100&sign=661e8789&sv=2)
 
 ## Configuration
 
@@ -97,18 +101,21 @@ Add this to your `claude_desktop_config.json`:
 }
 ```
 
-## Debugging
+### Usage with SkyDeck AI Helper App
 
-Since MCP servers run over stdio, debugging can be challenging. For the best debugging
-experience, we strongly recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
+Add the env REMEMBERIZER_API_TOKEN to mcp-server-rememberizer.
 
-You can launch the MCP Inspector via [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) with this command:
+![SkyDeck AI Helper Configuration](https://docs.rememberizer.ai/~gitbook/image?url=https%3A%2F%2F2952947711-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FyNqpTh7Mh66N0RnO0k24%252Fuploads%252FwQnwWCWlNbdVmJqyxHQp%252Fimage.png%3Falt%3Dmedia%26token%3D6032aa53-c1e9-46ee-b0fd-089fcb63dcc6&width=768&dpr=2&quality=100&sign=38c5ec43&sv=2)
 
-```bash
-npx @modelcontextprotocol/inspector uv --directory /path/to/directory/mcp-server-rememberizer/src/mcp_server_rememberizer run mcp-server-rememberizer
-```
+With support from the Rememberizer MCP server, you can now ask the following questions in your Claude Desktop app or SkyDeck AI GenStudio
 
-Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
+-   _What is my Rememberizer account?_
+
+-   _List all documents that I have there._
+
+-   _Give me a quick summary about "..."_
+
+-   and so on...
 
 ## License
 
