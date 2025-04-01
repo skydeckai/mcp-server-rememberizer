@@ -75,7 +75,9 @@ async def serve() -> Server:
             ),
             types.Tool(
                 name=RememberizerTools.SEARCH.value,
-                description="Send a block of text and retrieve cosine similar matches from your connected Rememberizer personal/team internal knowledge and memory repository.",
+                description="""Send a block of text and retrieve cosine similar matches from your connected Rememberizer personal/team internal knowledge and memory repository. 
+
+Consider using the tool list_internal_knowledge_systems to find out what sources of knowledge are available. You can specify a from_datetime_ISO8601 and a to_datetime_ISO8601, and you should look at the context of your request to make sure you put reasonable parameters around this by, for example, converting a reference to recently to a start date two weeks before today, or converting yesterday to a timeframe during the last day. But do be aware of the effect of time zone differences in the source data and for the requestor.""",
                 inputSchema={
                     "type": "object",
                     "properties": {
