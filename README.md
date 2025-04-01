@@ -14,46 +14,54 @@ The server provides access to two types of resources: Documents or Slack discuss
 
 ### Tools
 
-1. `rememberizer_search`
+1. `retrieve_semantically_similar_internal_knowledge`
 
-    - Search for documents by semantic similarity
+    - Send a block of text and retrieve cosine similar matches from your connected Rememberizer personal/team internal knowledge and memory repository
     - Input:
-        - `q` (string): Up to a 400-word sentence to find semantically similar chunks of knowledge
-        - `n` (integer, optional): Number of similar documents to return (default: 5)
-        - `from` (string, optional): Start date in ISO 8601 format with timezone (e.g., 2023-01-01T00:00:00Z). Use this to filter results from a specific date (default: None)
-        - `to` (string, optional): End date in ISO 8601 format with timezone (e.g., 2024-01-01T00:00:00Z). Use this to filter results until a specific date (default: None)
+        - `match_this` (string): Up to a 400-word sentence for which you wish to find semantically similar chunks of knowledge
+        - `n_results` (integer, optional): Number of semantically similar chunks of text to return. Use 'n_results=3' for up to 5, and 'n_results=10' for more information
+        - `from_datetime_ISO8601` (string, optional): Start date in ISO 8601 format with timezone (e.g., 2023-01-01T00:00:00Z). Use this to filter results from a specific date
+        - `to_datetime_ISO8601` (string, optional): End date in ISO 8601 format with timezone (e.g., 2024-01-01T00:00:00Z). Use this to filter results until a specific date
     - Returns: Search results as text output
 
-2. `rememberizer_agentic_search`
+2. `smart_search_internal_knowledge`
 
-    - Search for documents by semantic similarity with LLM Agents augmentation
+    - Search for documents in Rememberizer in its personal/team internal knowledge and memory repository using a simple query that returns the results of an agentic search. The search may include sources such as Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files
     - Input:
-        - `query` (string): Up to a 400-word sentence to find semantically similar chunks of knowledge. This query can be augmented by our LLM Agents for better results.
-        - `n_chunks` (integer, optional): Number of similar documents to return (default: 5)
-        - `user_context` (string, optional): The additional context for the query. You might need to summarize the conversation up to this point for better context-awared results (default: None)
-        - `from` (string, optional): Start date in ISO 8601 format with timezone (e.g., 2023-01-01T00:00:00Z). Use this to filter results from a specific date (default: None)
-        - `to` (string, optional): End date in ISO 8601 format with timezone (e.g., 2024-01-01T00:00:00Z). Use this to filter results until a specific date (default: None)
+        - `query` (string): Up to a 400-word sentence for which you wish to find semantically similar chunks of knowledge
+        - `user_context` (string, optional): The additional context for the query. You might need to summarize the conversation up to this point for better context-awared results
+        - `n_results` (integer, optional): Number of semantically similar chunks of text to return. Use 'n_results=3' for up to 5, and 'n_results=10' for more information
+        - `from_datetime_ISO8601` (string, optional): Start date in ISO 8601 format with timezone (e.g., 2023-01-01T00:00:00Z). Use this to filter results from a specific date
+        - `to_datetime_ISO8601` (string, optional): End date in ISO 8601 format with timezone (e.g., 2024-01-01T00:00:00Z). Use this to filter results until a specific date
     - Returns: Search results as text output
 
-3. `rememberizer_list_integrations`
+3. `list_internal_knowledge_systems`
 
-    - List available data source integrations
+    - List the sources of personal/team internal knowledge. These may include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files
     - Input: None required
     - Returns: List of available integrations
 
 4. `rememberizer_account_information`
 
-    - Get account information
+    - Get information about your Rememberizer.ai personal/team knowledge repository account. This includes account holder name and email address
     - Input: None required
     - Returns: Account information details
 
-5. `rememberizer_list_documents`
+5. `list_personal_team_knowledge_documents`
 
-    - Retrieves a paginated list of all documents
+    - Retrieves a paginated list of all documents in your personal/team knowledge system. Sources could include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files
     - Input:
         - `page` (integer, optional): Page number for pagination, starts at 1 (default: 1)
         - `page_size` (integer, optional): Number of documents per page, range 1-1000 (default: 100)
     - Returns: List of documents
+
+6. `remember_this`
+
+    - Save a piece of text information in your Rememberizer.ai knowledge system so that it may be recalled in future through tools retrieve_semantically_similar_internal_knowledge or smart_search_internal_knowledge
+    - Input:
+        - `name` (string): Name of the information. This is used to identify the information in the future
+        - `content` (string): The information you wish to memorize
+    - Returns: Confirmation data
 
 ## Installation
 

@@ -23,12 +23,12 @@ MEMORIZE_PATH = "documents/memorize/"
 
 
 class RememberizerTools(Enum):
-    SEARCH = "rememberizer_search"
-    AGENTIC_SEARCH = "rememberizer_agentic_search"
-    LIST_INTEGRATIONS = "rememberizer_list_integrations"
+    SEARCH = "retrieve_semantically_similar_internal_knowledge"
+    AGENTIC_SEARCH = "smart_search_internal_knowledge"
+    LIST_INTEGRATIONS = "list_internal_knowledge_systems"
     ACCOUNT_INFORMATION = "rememberizer_account_information"
-    LIST_DOCUMENTS = "rememberizer_list_documents"
-    MEMORIZE = "rememberizer_memorize"
+    LIST_DOCUMENTS = "list_personal_team_knowledge_documents"
+    MEMORIZE = "remember_this"
 
 
 class APIClient:

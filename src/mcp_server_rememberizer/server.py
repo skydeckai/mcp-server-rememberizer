@@ -68,23 +68,23 @@ async def serve() -> Server:
         return [
             types.Tool(
                 name=RememberizerTools.ACCOUNT_INFORMATION.value,
-                description="Get account information",
+                description="Get information about your Rememberizer.ai personal/team knowledge repository account. This includes account holder name and email address.",
                 inputSchema={
                     "type": "object",
                 },
             ),
             types.Tool(
                 name=RememberizerTools.SEARCH.value,
-                description="Search for documents by semantic similarity",
+                description="Send a block of text and retrieve cosine similar matches from your connected Rememberizer personal/team internal knowledge and memory repository.",
                 inputSchema={
                     "type": "object",
                     "properties": {
-                        "q": {
+                        "match_this": {
                             "type": "string",
                             "description": "Up to a 400-word sentence for which you wish to find "
                             "semantically similar chunks of knowledge.",
                         },
-                        "n": {
+                        "n_results": {
                             "type": "integer",
                             "description": (
                                 "Number of semantically similar chunks of text to return. "
@@ -93,14 +93,14 @@ async def serve() -> Server:
                                 "'n_results' value."
                             ),
                         },
-                        "from": {
+                        "from_datetime_ISO8601": {
                             "type": "string",
                             "description": (
                                 "Start date in ISO 8601 format with timezone (e.g., 2023-01-01T00:00:00Z). "
                                 "Use this to filter results from a specific date."
                             ),
                         },
-                        "to": {
+                        "to_datetime_ISO8601": {
                             "type": "string",
                             "description": (
                                 "End date in ISO 8601 format with timezone (e.g., 2024-01-01T00:00:00Z). "
@@ -108,12 +108,12 @@ async def serve() -> Server:
                             ),
                         },
                     },
-                    "required": ["q"],
+                    "required": ["match_this"],
                 },
             ),
             types.Tool(
                 name=RememberizerTools.AGENTIC_SEARCH.value,
-                description="Search for documents by semantic similarity",
+                description="Search for documents in Rememberizer in its personal/team internal knowledge and memory repository using a simple query that returns the results of an agentic search. The search may include sources such as Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files. Consider using the tool list_internal_knowledge_systems to find out which are available. Use the tool list_internal_knowledge_systems to find out which sources are available. \n\nYou can specify a from_datetime_ISO8601 and a to_datetime_ISO8601, and you should look at the context of your request to make sure you put reasonable parameters around this by, for example, converting a reference to recently to a start date two weeks before today, or converting yesterday to a timeframe during the last day. But do be aware of the effect of time zone differences in the source data and for the requestor.",
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -130,7 +130,7 @@ async def serve() -> Server:
                                 "context-awared results."
                             ),
                         },
-                        "n_chunks": {
+                        "n_results": {
                             "type": "integer",
                             "description": (
                                 "Number of semantically similar chunks of text to return. "
@@ -139,14 +139,14 @@ async def serve() -> Server:
                                 "larger 'n_results' value."
                             ),
                         },
-                        "from": {
+                        "from_datetime_ISO8601": {
                             "type": "string",
                             "description": (
                                 "Start date in ISO 8601 format with timezone (e.g., 2023-01-01T00:00:00Z). "
                                 "Use this to filter results from a specific date."
                             ),
                         },
-                        "to": {
+                        "to_datetime_ISO8601": {
                             "type": "string",
                             "description": (
                                 "End date in ISO 8601 format with timezone (e.g., 2024-01-01T00:00:00Z). "
@@ -159,14 +159,15 @@ async def serve() -> Server:
             ),
             types.Tool(
                 name=RememberizerTools.LIST_INTEGRATIONS.value,
-                description="List available data source integrations",
+                description="List the sources of personal/team internal knowledge. These may include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files.",
                 inputSchema={
                     "type": "object",
                 },
             ),
             types.Tool(
                 name=RememberizerTools.LIST_DOCUMENTS.value,
-                description="""Retrieves a paginated list of all documents in the system.
+                description="""Retrieves a paginated list of all documents in your personal/team knowledge system. Sources could include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files. Consider using the tool list_internal_knowledge_systems to find out which are available. 
+
 Use this tool to browse through available documents and their metadata.
 
 Examples:
@@ -196,8 +197,9 @@ Examples:
             types.Tool(
                 name=RememberizerTools.MEMORIZE.value,
                 description=(
-                    "Save a piece of text information in your Rememberizer account "
-                    "to help you discover semantically similar knowledge in the future."
+                    "Save a piece of text information in your Rememberizer.ai knowledge system so that it "
+                    "may be recalled in future through tools retrieve_semantically_similar_internal_knowledge or "
+                    "smart_search_internal_knowledge."
                 ),
                 inputSchema={
                     "type": "object",
@@ -223,39 +225,42 @@ Examples:
         name: str, arguments: dict
     ) -> list[types.TextContent | types.ImageContent | types.EmbeddedResource]:
         match name:
-            case RememberizerTools.SEARCH.value:
-                q = arguments["q"]
-                n = arguments.get("n", 5)
-                params = {"q": q, "n": n}
+            case "retrieve_semantically_similar_internal_knowledge":
+                match_this = arguments["match_this"]
+                n_results = arguments.get("n_results", 5)
+                from_datetime = arguments.get("from_datetime_ISO8601", None)
+                to_datetime = arguments.get("to_datetime_ISO8601", None)
+                params = {"q": match_this, "n": n_results, "from": from_datetime, "to": to_datetime}
                 data = await client.get(SEARCH_PATH, params=params)
                 return [types.TextContent(type="text", text=str(data))]
-            case RememberizerTools.AGENTIC_SEARCH.value:
+            case "smart_search_internal_knowledge":
                 query = arguments["query"]
-                n_chunks = arguments.get("n_chunks", 5)
+                n_results = arguments.get("n_results", 5)
                 user_context = arguments.get("user_context", None)
-                from_time = arguments.get("from", None)
-                to_time = arguments.get("to", None)
+                from_datetime = arguments.get("from_datetime_ISO8601", None)
+                to_datetime = arguments.get("to_datetime_ISO8601", None)
                 params = {
                     "query": query,
-                    "n_chunks": n_chunks,
+                    "n_chunks": n_results,
                     "user_context": user_context,
-                    "from": from_time,
-                    "to": to_time,
+                    "from": from_datetime,
+                    "to": to_datetime,
                 }
                 data = await client.post(AGENTIC_SEARCH_PATH, data=params)
-            case RememberizerTools.LIST_INTEGRATIONS.value:
+                return [types.TextContent(type="text", text=str(data))]
+            case "list_internal_knowledge_systems":
                 data = await client.get(LIST_INTEGRATIONS_PATH)
                 return [types.TextContent(type="text", text=str(data.get("data", [])))]
-            case RememberizerTools.ACCOUNT_INFORMATION.value:
+            case "rememberizer_account_information":
                 data = await client.get(ACCOUNT_INFORMATION_PATH)
                 return [types.TextContent(type="text", text=str(data))]
-            case RememberizerTools.LIST_DOCUMENTS.value:
+            case "list_personal_team_knowledge_documents":
                 page = arguments.get("page", 1)
                 page_size = arguments.get("page_size", 100)
                 params = {"page": page, "page_size": page_size}
                 data = await client.get(LIST_DOCUMENTS_PATH, params=params)
                 return [types.TextContent(type="text", text=str(data))]
-            case RememberizerTools.MEMORIZE.value:
+            case "remember_this":
                 params = {
                     "name": arguments["name"],
                     "content": arguments["content"],
