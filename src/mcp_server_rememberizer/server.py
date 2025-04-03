@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import sys
 
 import mcp.server.stdio
 import mcp.types as types
@@ -33,7 +34,23 @@ if not REMEMBERIZER_API_TOKEN:
 client = APIClient(base_url=REMEMBERIZER_BASE_URL, api_key=REMEMBERIZER_API_TOKEN)
 
 
+# Get the current process ID
+PROCESS_ID = os.getpid()
+
+def enhance_description(base_description: str) -> str:
+    """Enhance a tool description by appending the process ID.
+    
+    Args:
+        base_description: The original hardcoded description
+        
+    Returns:
+        Enhanced description with process ID appended
+    """
+    return f"{base_description}\n\nProcess ID: {PROCESS_ID}"
+
+
 async def serve() -> Server:
+    # No pre-loading or logging needed
     server = Server(APP_NAME)
 
     @server.list_resources()
@@ -65,19 +82,27 @@ async def serve() -> Server:
 
     @server.list_tools()
     async def list_tools() -> list[types.Tool]:
+        # Get base descriptions
+        account_info_desc = "Get information about your Rememberizer.ai personal/team knowledge repository account. This includes account holder name and email address."
+        
+        # Enhance the description with process ID
+        enhanced_account_info_desc = enhance_description(account_info_desc)
+        
         return [
             types.Tool(
                 name=RememberizerTools.ACCOUNT_INFORMATION.value,
-                description="Get information about your Rememberizer.ai personal/team knowledge repository account. This includes account holder name and email address.",
+                description=enhanced_account_info_desc,
                 inputSchema={
                     "type": "object",
                 },
             ),
             types.Tool(
                 name=RememberizerTools.SEARCH.value,
-                description="""Send a block of text and retrieve cosine similar matches from your connected Rememberizer personal/team internal knowledge and memory repository. 
+                description=enhance_description(
+                    """Send a block of text and retrieve cosine similar matches from your connected Rememberizer personal/team internal knowledge and memory repository. 
 
-Consider using the tool list_internal_knowledge_systems to find out what sources of knowledge are available. You can specify a from_datetime_ISO8601 and a to_datetime_ISO8601, and you should look at the context of your request to make sure you put reasonable parameters around this by, for example, converting a reference to recently to a start date two weeks before today, or converting yesterday to a timeframe during the last day. But do be aware of the effect of time zone differences in the source data and for the requestor.""",
+Consider using the tool list_internal_knowledge_systems to find out what sources of knowledge are available. You can specify a from_datetime_ISO8601 and a to_datetime_ISO8601, and you should look at the context of your request to make sure you put reasonable parameters around this by, for example, converting a reference to recently to a start date two weeks before today, or converting yesterday to a timeframe during the last day. But do be aware of the effect of time zone differences in the source data and for the requestor."""
+                ),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -115,7 +140,9 @@ Consider using the tool list_internal_knowledge_systems to find out what sources
             ),
             types.Tool(
                 name=RememberizerTools.AGENTIC_SEARCH.value,
-                description="Search for documents in Rememberizer in its personal/team internal knowledge and memory repository using a simple query that returns the results of an agentic search. The search may include sources such as Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files. Consider using the tool list_internal_knowledge_systems to find out which are available. Use the tool list_internal_knowledge_systems to find out which sources are available. \n\nYou can specify a from_datetime_ISO8601 and a to_datetime_ISO8601, and you should look at the context of your request to make sure you put reasonable parameters around this by, for example, converting a reference to recently to a start date two weeks before today, or converting yesterday to a timeframe during the last day. But do be aware of the effect of time zone differences in the source data and for the requestor.",
+                description=enhance_description(
+                    "Search for documents in Rememberizer in its personal/team internal knowledge and memory repository using a simple query that returns the results of an agentic search. The search may include sources such as Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files. Consider using the tool list_internal_knowledge_systems to find out which are available. Use the tool list_internal_knowledge_systems to find out which sources are available. \n\nYou can specify a from_datetime_ISO8601 and a to_datetime_ISO8601, and you should look at the context of your request to make sure you put reasonable parameters around this by, for example, converting a reference to recently to a start date two weeks before today, or converting yesterday to a timeframe during the last day. But do be aware of the effect of time zone differences in the source data and for the requestor."
+                ),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -161,14 +188,17 @@ Consider using the tool list_internal_knowledge_systems to find out what sources
             ),
             types.Tool(
                 name=RememberizerTools.LIST_INTEGRATIONS.value,
-                description="List the sources of personal/team internal knowledge. These may include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files.",
+                description=enhance_description(
+                    "List the sources of personal/team internal knowledge. These may include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files."
+                ),
                 inputSchema={
                     "type": "object",
                 },
             ),
             types.Tool(
                 name=RememberizerTools.LIST_DOCUMENTS.value,
-                description="""Retrieves a paginated list of all documents in your personal/team knowledge system. Sources could include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files. Consider using the tool list_internal_knowledge_systems to find out which are available. 
+                description=enhance_description(
+                    """Retrieves a paginated list of all documents in your personal/team knowledge system. Sources could include Slack discussions, Gmail, Dropbox documents, Google Drive documents, and uploaded files. Consider using the tool list_internal_knowledge_systems to find out which are available. 
 
 Use this tool to browse through available documents and their metadata.
 
@@ -176,7 +206,8 @@ Examples:
 - List first 100 documents: {"page": 1, "page_size": 100}
 - Get next page: {"page": 2, "page_size": 100}
 - Get maximum allowed documents: {"page": 1, "page_size": 1000}
-""",
+"""
+                ),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -198,7 +229,7 @@ Examples:
             ),
             types.Tool(
                 name=RememberizerTools.MEMORIZE.value,
-                description=(
+                description=enhance_description(
                     "Save a piece of text information in your Rememberizer.ai knowledge system so that it "
                     "may be recalled in future through tools retrieve_semantically_similar_internal_knowledge or "
                     "smart_search_internal_knowledge."
