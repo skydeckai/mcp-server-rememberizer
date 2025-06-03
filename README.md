@@ -1,5 +1,7 @@
 # MCP Server Rememberizer
 
+[![Verified on MseeP](https://mseep.ai/badge.svg)](https://mseep.ai/app/fe7a40fd-30c1-4767-84f9-d33bf997497e)
+
 [![smithery badge](https://smithery.ai/badge/mcp-server-rememberizer)](https://smithery.ai/server/mcp-server-rememberizer)
 
 A [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) server for interacting with Rememberizer's document and knowledge management API. This server enables Large Language Models to search, retrieve, and manage documents and integrations through Rememberizer.
