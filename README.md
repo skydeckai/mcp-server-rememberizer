@@ -4,8 +4,6 @@
 
 [![Verified on MseeP](https://mseep.ai/badge.svg)](https://mseep.ai/app/fe7a40fd-30c1-4767-84f9-d33bf997497e)
 
-[![smithery badge](https://smithery.ai/badge/mcp-server-rememberizer)](https://smithery.ai/server/mcp-server-rememberizer)
-
 A [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) server for interacting with Rememberizer's document and knowledge management API. This server enables Large Language Models to search, retrieve, and manage documents and integrations through Rememberizer.
 
 Please note that `mcp-server-rememberizer` is currently in development and the functionality may be subject to change.
@@ -69,23 +67,17 @@ The server provides access to two types of resources: Documents or Slack discuss
 
 ## Installation
 
-### Via mcp-get.com
+### Manual Installation
 
 ```bash
-npx @michaellatman/mcp-get@latest install mcp-server-rememberizer
+uvx mcp-server-rememberizer
 ```
 
-### Via Smithery
+### Via MseeP AI Helper App
 
-```bash
-npx -y @smithery/cli install mcp-server-rememberizer --client claude
-```
+If you have MseeP AI Helper app installed, you can search for "Rememberizer" and install the mcp-server-rememberizer.
 
-### Via SkyDeck AI Helper App
-
-If you have SkyDeck AI Helper app installed, you can search for "Rememberizer" and install the mcp-server-rememberizer.
-
-![SkyDeck AI Helper](https://docs.rememberizer.ai/~gitbook/image?url=https%3A%2F%2F2952947711-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FyNqpTh7Mh66N0RnO0k24%252Fuploads%252FYyy7b70uYnO8Gm5V7spp%252Fimage.png%3Falt%3Dmedia%26token%3D008d56ea-44f8-482a-a889-f7d933f1d734&width=768&dpr=2&quality=100&sign=661e8789&sv=2)
+![MseeP AI Helper](https://www.gitbook.com/cdn-cgi/image/dpr=2,width=760,onerror=redirect,format=auto/https%3A%2F%2Ffiles.gitbook.com%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FyNqpTh7Mh66N0RnO0k24%252Fuploads%252FuTpQuJffWohPRTvjmyVe%252FScreenshot%25202025-07-29%2520at%252014.43.12.png%3Falt%3Dmedia%26token%3D7f046f3b-dc69-4f09-8f8c-978097f0066e)
 
 ## Configuration
 
@@ -113,11 +105,11 @@ Add this to your `claude_desktop_config.json`:
 }
 ```
 
-### Usage with SkyDeck AI Helper App
+### Usage with MseeP AI Helper App
 
 Add the env REMEMBERIZER_API_TOKEN to mcp-server-rememberizer.
 
-![SkyDeck AI Helper Configuration](https://docs.rememberizer.ai/~gitbook/image?url=https%3A%2F%2F2952947711-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FyNqpTh7Mh66N0RnO0k24%252Fuploads%252FwQnwWCWlNbdVmJqyxHQp%252Fimage.png%3Falt%3Dmedia%26token%3D6032aa53-c1e9-46ee-b0fd-089fcb63dcc6&width=768&dpr=2&quality=100&sign=38c5ec43&sv=2)
+![MseeP AI Helper Configuration](https://www.gitbook.com/cdn-cgi/image/dpr=2,width=760,onerror=redirect,format=auto/https%3A%2F%2Ffiles.gitbook.com%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FyNqpTh7Mh66N0RnO0k24%252Fuploads%252FHxisSUT1anmCpoHhW8CJ%252FScreenshot%25202025-07-29%2520at%252014.45.42.png%3Falt%3Dmedia%26token%3D1332394a-cdbe-4e7b-9099-1dbf14e58ffb)
 
 With support from the Rememberizer MCP server, you can now ask the following questions in your Claude Desktop app or SkyDeck AI GenStudio
 
@@ -128,6 +120,8 @@ With support from the Rememberizer MCP server, you can now ask the following que
 -   _Give me a quick summary about "..."_
 
 -   and so on...
+
+To learn more about Rememberizer MCP Server: https://docs.rememberizer.ai/personal-use/integrations/rememberizer-mcp-servers
 
 ## License
 
