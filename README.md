@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/skydeckai-mcp-server-rememberizer-badge.png)](https://mseep.ai/app/skydeckai-mcp-server-rememberizer)
+
 # MCP Server Rememberizer
 
 [![Verified on MseeP](https://mseep.ai/badge.svg)](https://mseep.ai/app/fe7a40fd-30c1-4767-84f9-d33bf997497e)
